@@ -71,6 +71,7 @@ public class Part2 {
    * value of the middle number.
    * 
    * TODO: Implement a faster sorting algorithm.
+   * https://rcoh.me/posts/linear-time-median-finding/
    */
   public static int processInvalidReport(
     Map<Integer, List<Integer>> graph,
