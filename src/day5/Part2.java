@@ -19,13 +19,18 @@ public class Part2 {
     // Data contains lines of rules, and reports. Rules follow format "X|Y", and
     // reports contain a string of integers "X,Y,Z". Rules and reports are
     // separated by a single blank line.
-    List<String> data = parseFile("src/day5/input.txt");
+    final List<String> data = parseFile("src/day5/input.txt");
+    final long start = System.currentTimeMillis();
+    solve(data);
+    System.out.println(String.format("%dms", System.currentTimeMillis() - start));
+  }
+
+  public static void solve(List<String> data) {
     Iterator<String> it = data.iterator();
 
     Map<Integer, List<Integer>> graph = new HashMap<>();
     DirectedGraph directed = new DirectedGraph(graph);
 
-    // Read in the rules and add them to the graph
     while (it.hasNext()) {
       String rule = it.next();
       if (rule.isEmpty()) {
@@ -46,14 +51,15 @@ public class Part2 {
         .mapToInt(str -> Integer.parseInt(str))
         .toArray();
       
-        if (processReport(graph, report) != 0) {
-          continue;
-        }
-        total += processInvalidReport(graph, report);
+      if (processReport(graph, report) != 0) {
+        continue;
+      }
+      total += processInvalidReport(graph, report);
     }
     System.out.println(total);
   }
 
+  /** Process a report and return the middle value */
   public static int processReport(
     Map<Integer, List<Integer>> graph,
     int[] report

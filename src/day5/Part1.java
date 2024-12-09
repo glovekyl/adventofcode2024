@@ -56,6 +56,7 @@ public class Part1 {
     System.out.println(total);
   }
 
+  /** Process a report and return the middle value */
   public static int processReport(
     Map<Integer, List<Integer>> graph,
     int[] report

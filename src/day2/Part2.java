@@ -18,11 +18,20 @@ public class Part2 {
   public static void main(String[] args) {
     final int[][] reports = parseFile("src/day2/input.txt");
 
-    final int safeReports = (int) Arrays.stream(reports)
-      .filter((report) -> isSafe(report) || isDampenedSafe(report))
-      .count();
+    // final int safeReports = (int) Arrays.stream(reports)
+    //   .filter((report) -> isSafe(report) || isDampenedSafe(report))
+    //   .count();
 
-    System.out.println(safeReports);
+    // Convert to array of unsafe reports. Dampeing is not required.
+    final int[][] unsafeReports = Arrays.stream(reports)
+      .filter((report) -> !isSafe(report))
+      .toArray(int[][]::new);
+    
+    final int[][] dampenedReports = Arrays.stream(unsafeReports)
+      .filter((report) -> isDampenedSafe(report))
+      .toArray(int[][]::new);
+
+    System.out.println(Arrays.toString(dampenedReports[0]) + " " + dampenedReports.length);
   }
 
   /**
@@ -61,6 +70,17 @@ public class Part2 {
       }
     }
     return false;
+  }
+
+  public static boolean isDampenedSafe2(int[] report) {
+    final int direction = (report[0] > report[1]) ? -1 : 1;
+    for (int i = 1; i < report.length; i++) {
+      final int diff = (report[i-1] - report[i]) * -direction;
+      if (diff <= 0 || diff > 3) {
+        return false;
+      }
+    }
+    return true;
   }
 
   /** Read complete file contents. */
